@@ -1,22 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { parse } from 'papaparse';
 import Dropzone from './Dropzone';
 import DataTable from './DataTable';
 import '../styles/App.css';
 
-function App() {
+type DataType = {
+  columns: Array<string>,
+  data: Array<Array<string>>,
+}
 
+const App = () => {
   const [file, setFile] = useState<File>({} as File);
+  const [dataset, setDataset] = useState<DataType>({} as DataType);
 
-  console.log(file);
+  const parseCSVFile = async (file:File) => {
+    return parse<Array<string>,File>(file, {
+      complete: (results) => {
+        if(results.errors.length > 0){
+          throw results.errors;
+        }
+        setDataset({
+          columns: results.data[0],
+          data: results.data.slice(1,results.data.length)
+        });
+      }
+     });
+  }
+
+  useEffect(() => {
+    if(file && file.name){
+      parseCSVFile(file);
+    }
+  },[file]);
 
 
-  if(file.name !== undefined) {
+  if(file && file.name) {
+    console.log('called');
+    console.log(file);
+    console.log(dataset);
     return(
       <div className="App">
         <header className="App-header">
           SQLEdit
         </header>
-        <DataTable />
+        
+        {/* <DataTable columns={dataset.columns} data={dataset.data}/> */}
       </div>
     )
   }
