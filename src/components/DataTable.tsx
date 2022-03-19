@@ -1,16 +1,18 @@
-import React, { memo } from "react";
+import React, { useEffect, useMemo, memo } from "react";
 import { useTable } from 'react-table';
-
-type DataTableProps = {
-  columns: Array<any>,
-   data: Array<any>,
-}
+import { DataTableProps } from "./types";
+import { parseDataToFormat } from './utils/parseData';
 
 const DataTable = ({ columns, data } : DataTableProps) => {
 
   console.log(`Inside dataset : ${columns} and ${data}`);
 
-  const tableInstance = useTable({ columns, data });
+  const { tableColumns, tableRows } = parseDataToFormat({columns, data});
+
+  console.log(tableColumns);
+  console.log(tableRows);
+
+  const tableInstance = useTable({ columns:tableColumns, data:tableRows });
   const {
     getTableProps,
     getTableBodyProps,

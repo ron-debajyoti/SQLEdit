@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { parse } from 'papaparse';
 import Dropzone from './Dropzone';
 import DataTable from './DataTable';
+import { DataType } from './types';
 import '../styles/App.css';
 
-type DataType = {
-  columns: Array<string>,
-  data: Array<Array<string>>,
-}
 
 const App = () => {
   const [file, setFile] = useState<File>({} as File);
@@ -34,7 +31,7 @@ const App = () => {
   },[file]);
 
 
-  if(file && file.name) {
+  if(dataset && dataset.columns) {
     console.log('called');
     console.log(file);
     console.log(dataset);
@@ -44,7 +41,7 @@ const App = () => {
           SQLEdit
         </header>
         
-        {/* <DataTable columns={dataset.columns} data={dataset.data}/> */}
+        <DataTable columns={dataset.columns} data={dataset.data}/>
       </div>
     )
   }
