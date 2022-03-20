@@ -1,8 +1,6 @@
-import { DataType } from "../types";
 
-const parseDataToFormat = (dataset:DataType) => {
-  const { columns, data} = dataset;
-  const dataLength = data.length;
+const parseDataToFormat = (dataset: Array<string[]>) => {
+  const columns:string[] = dataset[0];
 
   const tableColumns = columns.map((column,i) => {
     return {
@@ -11,7 +9,8 @@ const parseDataToFormat = (dataset:DataType) => {
     }
   });
   
-  const tableRows: Array<Record<string, any>> = data.map((d) => {
+  const tempData = dataset.slice(1,dataset.length);
+  const tableRows: Array<Record<string, any>> = tempData.map((d) => {
     var res: Record<string,string> = {}
     tableColumns.map((tc,i) => {
       res[tc.accessor] = d[i];

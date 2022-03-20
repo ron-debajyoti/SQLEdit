@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { v4 as uuid } from "uuid";
 
 type DropzoneProps  = {
   onFileChange: any
 }
 
 const Dropzone = ({ onFileChange } : DropzoneProps) => {
-
   const {
     acceptedFiles,
     fileRejections,
@@ -15,15 +13,29 @@ const Dropzone = ({ onFileChange } : DropzoneProps) => {
     getInputProps
   } = useDropzone({
     multiple: false,
-    accept: "text/csv, .json"
+    accept: "text/csv, application/json"
   })
 
   useEffect(() => {
-    onFileChange(acceptedFiles[0]);
+    if(acceptedFiles.length>0) {
+      const { type } = acceptedFiles[0]
+      if(type === 'application/json') {
+        onFileChange({
+          file: acceptedFiles[0], 
+          type: 'json'
+        });
+      } else {
+        onFileChange({
+          file: acceptedFiles[0], 
+          type: 'csv'
+        });
+      }
+
+    }
   },[acceptedFiles]);
   
   return (
-    <section className="container">
+    <section className="dropzone-container">
       <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
         <p>Drag and drop some files here, or click to select files</p>

@@ -1,18 +1,49 @@
 import React, { useEffect, useMemo, memo } from "react";
-import { useTable } from 'react-table';
-import { DataTableProps } from "./types";
-import { parseDataToFormat } from './utils/parseData';
+import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy } from 'react-table';
+import styled from "styled-components/macro";
+import { DataType } from "./types";
 
-const DataTable = ({ columns, data } : DataTableProps) => {
+const Styles = styled.div`
+  display: block;
+  max-width: 100%;
+
+  padding: 1rem;
+
+  table {
+    border-spacing: 0;
+    border: 1px solid black;
+
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    th,
+    td {
+      margin: 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+
+      :last-child {
+        border-right: 0;
+      }
+    }
+  }
+`;
+
+
+const DataTable = ({ columns, data, type } : DataType) => {
 
   console.log(`Inside dataset : ${columns} and ${data}`);
 
-  const { tableColumns, tableRows } = parseDataToFormat({columns, data});
+  console.log(columns);
+  console.log(data);
 
-  console.log(tableColumns);
-  console.log(tableRows);
-
-  const tableInstance = useTable({ columns:tableColumns, data:tableRows });
+  const tableInstance = useTable({ columns, data }, useSortBy);
   const {
     getTableProps,
     getTableBodyProps,
@@ -22,13 +53,14 @@ const DataTable = ({ columns, data } : DataTableProps) => {
   } = tableInstance;
 
   return (
+  <Styles>
     <div className="data-table">
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                 </th>
               ))}
@@ -53,6 +85,7 @@ const DataTable = ({ columns, data } : DataTableProps) => {
         </tbody>
       </table>
     </div>
+  </Styles>
   )
 };
 
