@@ -17,6 +17,7 @@ type SelectionProps = {
   columns: Array<TableColumn>,
   tableName: string,
   setFunction: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>,
+  bool: boolean,
   setBoolean: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -28,7 +29,7 @@ type SelectionProps = {
  * 
  * @returns 
  */
-const SQLSelection = ({ columns, tableName, setFunction, setBoolean }: SelectionProps) => {
+const SQLSelection = ({ columns, tableName, setFunction, bool, setBoolean }: SelectionProps) => {
 
   const [selectedColumns, setSelectedColumns] = useState<MultiValue<OptionsType>>();
   const columnOptions: Array<OptionsType> = columns.map((column) => {
@@ -47,12 +48,18 @@ const SQLSelection = ({ columns, tableName, setFunction, setBoolean }: Selection
   const handleChange = (newValue: MultiValue<OptionsType>) => { setSelectedColumns(newValue) };
 
   const handleSubmit = (event: FormEvent) => {
-    console.log('fired');
+    event.preventDefault()
     setFunction({
       select: selectedColumns?.map((col) => col.value),
       from: tableName,
     });
     setBoolean(true);
+  }
+
+  const handleReset = (event: FormEvent) => {
+    event.preventDefault();
+    setBoolean(!bool);
+    setFunction({});
   }
 
   return (
@@ -77,7 +84,8 @@ const SQLSelection = ({ columns, tableName, setFunction, setBoolean }: Selection
           className="from-multi-dropdown"
         />
         </label>
-        <Button type='button' value='submit' onClick={handleSubmit}> Submit </Button>
+        <Button type='button' className="button-submit" onClick={handleSubmit}> Submit </Button>
+        <Button type='button' className="button-reset" onClick={handleReset}> Reset </Button>
       </Form>
     </div>
   )

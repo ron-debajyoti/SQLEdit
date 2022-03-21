@@ -12,6 +12,7 @@ import '../styles/App.css';
 type RendererProps = {
   dataset: DataType,
   setSelectedOptions: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>> ,
+  isFiltered: boolean,
   setFilter: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -72,7 +73,7 @@ const App = () => {
   },[selectedOptions]);
 
 
-  const Renderer = ({ dataset, setSelectedOptions, setFilter }: RendererProps) => {
+  const Renderer = ({ dataset, setSelectedOptions, isFiltered, setFilter }: RendererProps) => {
     if(dataset && dataset.columns) {
       return(
         <div className="Renderer">
@@ -80,6 +81,7 @@ const App = () => {
             columns={dataset.columns} 
             tableName={dataset.table} 
             setFunction={setSelectedOptions}
+            bool={isFiltered}
             setBoolean={setFilter}
           />
           <DataTable {...dataset}/>
@@ -91,6 +93,9 @@ const App = () => {
     )
   }
 
+
+
+  /* Main return of App */
   if (isFiltered && filteredDataset && filteredDataset.columns) {
     return (
       <div className="App">
@@ -100,6 +105,7 @@ const App = () => {
         <Renderer 
           dataset={filteredDataset} 
           setSelectedOptions={setSelectedOptions} 
+          isFiltered={isFiltered}
           setFilter={setFilter}
         />
       </div>
@@ -113,6 +119,7 @@ const App = () => {
       <Renderer 
         dataset={dataset} 
         setSelectedOptions={setSelectedOptions} 
+        isFiltered={isFiltered}
         setFilter={setFilter}
       />
     </div>
