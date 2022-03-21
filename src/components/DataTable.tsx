@@ -21,8 +21,7 @@ const Styles = styled.div`
       }
     }
 
-    th,
-    td {
+    th,td {
       margin: 0;
       padding: 0.5rem;
       border-bottom: 1px solid black;
@@ -36,10 +35,7 @@ const Styles = styled.div`
 `;
 
 
-const DataTable = ({ columns, data, type } : DataType) => {
-
-  console.log(`Inside dataset : ${columns} and ${data}`);
-
+const DataTable = ({ columns, data, type, table } : DataType) => {
   console.log(columns);
   console.log(data);
 
