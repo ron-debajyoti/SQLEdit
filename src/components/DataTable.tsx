@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, memo } from "react";
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy } from 'react-table';
 import styled from "styled-components/macro";
-import { DataType } from "./types";
+import { DataType } from "./types/types";
 
 const Styles = styled.div`
   display: block;

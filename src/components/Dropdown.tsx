@@ -1,8 +1,7 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
 import styled from "styled-components/macro";
-import { useAsyncDebounce } from "react-table";
-import ReactSelect, { ActionMeta, components, MultiValue, OnChangeValue } from "react-select";
-import { OptionsType, SelectedOptionsType, TableColumn } from "./types";
+import ReactSelect, { MultiValue } from "react-select";
+import { OptionsType, SelectionProps } from "./types/types";
 import { Button } from "./Reusables";
 
 const Form = styled.form`
@@ -13,14 +12,6 @@ const Form = styled.form`
   padding: 1em;
 `;
 
-type SelectionProps = {
-  columns: Array<TableColumn>,
-  tableName: string,
-  setFunction: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>,
-  bool: boolean,
-  setBoolean: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 /**
  * We have three statements supporting:
  *  - SELECT <columns>
@@ -29,7 +20,7 @@ type SelectionProps = {
  * 
  * @returns 
  */
-const SQLSelection = ({ columns, tableName, setFunction, bool, setBoolean }: SelectionProps) => {
+const DropDownSelection = ({ columns, tableName, setFunction, bool, setBoolean }: SelectionProps) => {
 
   const [selectedColumns, setSelectedColumns] = useState<MultiValue<OptionsType>>();
   const columnOptions: Array<OptionsType> = columns.map((column) => {
@@ -51,7 +42,7 @@ const SQLSelection = ({ columns, tableName, setFunction, bool, setBoolean }: Sel
     event.preventDefault()
     setFunction({
       select: selectedColumns?.map((col) => col.value),
-      from: tableName,
+      from: [tableName],
     });
     setBoolean(true);
   }
@@ -92,4 +83,4 @@ const SQLSelection = ({ columns, tableName, setFunction, bool, setBoolean }: Sel
 
 }
 
-export default SQLSelection;
+export default DropDownSelection;

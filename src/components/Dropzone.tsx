@@ -5,6 +5,23 @@ type DropzoneProps  = {
   onFileChange: any
 }
 
+const dropzoneStyle: Record<any, any> = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '20px',
+  borderWidth: 2,
+  borderRadius: 2,
+  borderColor: '#eeeeee',
+  borderStyle: 'dashed',
+  backgroundColor: '#fafafa',
+  color: 'black',
+  outline: 'none',
+  transition: 'border .24s ease-in-out'
+};
+
+
 const Dropzone = ({ onFileChange } : DropzoneProps) => {
   const {
     acceptedFiles,
@@ -36,7 +53,10 @@ const Dropzone = ({ onFileChange } : DropzoneProps) => {
   
   return (
     <section className="dropzone-container">
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ 
+        className: 'dropzone', 
+        style: dropzoneStyle
+        })}>
         <input {...getInputProps()} />
         <p>Drag and drop some files here, or click to select files</p>
         <em>(Only *.csv and *.json are accepted)</em>

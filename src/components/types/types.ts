@@ -17,7 +17,7 @@ export type DataType = {
 
 export type SelectedOptionsType = {
   select?: Array<string>,
-  from?: string,
+  from?: Array<string>,
   where?: string,
 }
 
@@ -25,3 +25,12 @@ export type OptionsType = {
   value: string,
   label: string
 }
+
+export type SelectionProps = {
+  columns: Array<TableColumn>,
+  tableName: string,
+  setFunction: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>,
+  bool: boolean,
+  setBoolean: React.Dispatch<React.SetStateAction<boolean>>
+}
+

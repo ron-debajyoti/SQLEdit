@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { parse } from 'papaparse';
 import Dropzone from './Dropzone';
 import DataTable from './DataTable';
-import { DataType, AppFileType, OptionsType, SelectedOptionsType } from './types';
+import { DataType, AppFileType, OptionsType, SelectedOptionsType } from './types/types';
 import { parseDataToFormat } from './utils/parseData';
-import SQLSelection from './SQLSelection';
+import SelectSection from './SelectSection';
 
 import '../styles/App.css';
 
@@ -19,8 +19,8 @@ type RendererProps = {
 const App = () => {
   const [file, setFile] = useState<AppFileType>({} as AppFileType);
   const [dataset, setDataset] = useState<DataType>({} as DataType);
-
-  // filtered states
+  
+  // for filtering
   const [isFiltered, setFilter] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptionsType>();
   const [filteredDataset, setFilteredDataset] = useState<DataType>({} as DataType)
@@ -77,11 +77,12 @@ const App = () => {
     if(dataset && dataset.columns) {
       return(
         <div className="Renderer">
-          <SQLSelection 
+          <SelectSection 
             columns={dataset.columns} 
             tableName={dataset.table} 
             setFunction={setSelectedOptions}
             bool={isFiltered}
+            setEditorStringQuery={setSelectedOptions}
             setBoolean={setFilter}
           />
           <DataTable {...dataset}/>
@@ -104,9 +105,7 @@ const App = () => {
         </header>
         <Renderer 
           dataset={filteredDataset} 
-          setSelectedOptions={setSelectedOptions} 
-          isFiltered={isFiltered}
-          setFilter={setFilter}
+          { ...{ setSelectedOptions, isFiltered, setFilter } }
         />
       </div>
     );
@@ -118,9 +117,7 @@ const App = () => {
       </header>
       <Renderer 
         dataset={dataset} 
-        setSelectedOptions={setSelectedOptions} 
-        isFiltered={isFiltered}
-        setFilter={setFilter}
+        { ...{ setSelectedOptions, isFiltered, setFilter } }
       />
     </div>
   );
