@@ -19,6 +19,7 @@ export type SelectedOptionsType = {
   select?: Array<string>,
   from?: Array<string>,
   where?: string,
+  setFrom: 'dropbutton' | 'editor',
 }
 
 export type OptionsType = {

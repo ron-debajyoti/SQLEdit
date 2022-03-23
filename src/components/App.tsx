@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { parse } from 'papaparse';
 import Dropzone from './Dropzone';
 import DataTable from './DataTable';
-import { DataType, AppFileType, OptionsType, SelectedOptionsType } from './types/types';
+import { DataType, AppFileType, OptionsType, SelectedOptionsType, TableColumn } from './types/types';
 import { parseDataToFormat } from './utils/parseData';
 import SelectSection from './SelectSection';
 import { Div } from './Reusables';
@@ -20,6 +20,7 @@ type RendererProps = {
 const App = () => {
   const [file, setFile] = useState<AppFileType>({} as AppFileType);
   const [dataset, setDataset] = useState<DataType>({} as DataType);
+  const [ isEditor, setEditor ] = useState(false);
   
   // for filtering
   const [isFiltered, setFilter] = useState(false);
@@ -53,9 +54,16 @@ const App = () => {
   useEffect(() => {
     if(selectedOptions) {
       console.log(selectedOptions);
-      const filteredColumnsContent = dataset.columns.filter(
-        (col) => selectedOptions.select?.includes(col.accessor) );
-      
+      var filteredColumnsContent: TableColumn[];
+
+      if (selectedOptions.setFrom === 'dropbutton') {
+        filteredColumnsContent = dataset.columns.filter(
+          (col) => selectedOptions.select?.includes(col.accessor) );
+      } else {
+        filteredColumnsContent = dataset.columns.filter(
+          (col) => selectedOptions.select?.includes(col.accessor.split('_')[0]) );
+      }
+
       const filteredRows = dataset.data.map((dataEntry) => {
         var res:Record<any, string> = {}
         filteredColumnsContent.forEach((column) => {
@@ -74,6 +82,8 @@ const App = () => {
   },[selectedOptions]);
 
 
+console.log('FILTERED DATAST : ', filteredDataset);
+
   const Renderer = ({ dataset, setSelectedOptions, isFiltered, setFilter }: RendererProps) => {
     if(dataset && dataset.columns) {
       return(
@@ -83,8 +93,9 @@ const App = () => {
             tableName={dataset.table} 
             setFunction={setSelectedOptions}
             bool={isFiltered}
-            setEditorStringQuery={setSelectedOptions}
             setBoolean={setFilter}
+            isEditor={isEditor}
+            setEditor={setEditor}
           />
           <DataTable {...dataset}/>
         </Div>

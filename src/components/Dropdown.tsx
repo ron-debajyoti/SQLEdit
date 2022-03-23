@@ -1,7 +1,7 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
 import styled from "styled-components/macro";
 import ReactSelect, { MultiValue } from "react-select";
-import { OptionsType, SelectionProps } from "./types/types";
+import { OptionsType, SelectedOptionsType, SelectionProps } from "./types/types";
 import { Button } from "./Reusables";
 
 const Form = styled.form`
@@ -42,6 +42,7 @@ const DropDownSelection = ({ columns, tableName, setFunction, bool, setBoolean }
     setFunction({
       select: selectedColumns?.map((col) => col.value),
       from: [tableName],
+      setFrom: 'dropbutton'
     });
     setBoolean(true);
   }
@@ -49,7 +50,7 @@ const DropDownSelection = ({ columns, tableName, setFunction, bool, setBoolean }
   const handleReset = (event: FormEvent) => {
     event.preventDefault();
     setBoolean(!bool);
-    setFunction({});
+    setFunction({} as SelectedOptionsType);
   }
 
   return (

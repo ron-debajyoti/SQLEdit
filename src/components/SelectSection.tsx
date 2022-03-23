@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import styled from 'styled-components/macro';
 import { SelectedOptionsType, TableColumn } from './types/types';
 import Editor from './Editor';
@@ -11,11 +11,19 @@ type SelectSectionProps = {
   setFunction: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>,
   bool: boolean,
   setBoolean: React.Dispatch<React.SetStateAction<boolean>>,
-  setEditorStringQuery: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>
+  isEditor: boolean,
+  setEditor: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const SelectSection = ({ columns, tableName, setFunction, bool, setBoolean, setEditorStringQuery } : SelectSectionProps) => {
-  const [ isEditor, setEditor ] = useState(false);
+const SelectSection = ({ 
+  columns, 
+  tableName, 
+  setFunction, 
+  bool, 
+  setBoolean, 
+  isEditor, 
+  setEditor 
+} : SelectSectionProps) => {
   
   const handleSection = () => {
     setEditor(!isEditor);
@@ -24,7 +32,7 @@ const SelectSection = ({ columns, tableName, setFunction, bool, setBoolean, setE
   if(isEditor) {
     return(
     <Div className='section-dropdown' flexDirection='column' flexGrow={1} width='100%'>
-      <Editor setQuery={setEditorStringQuery} />
+      <Editor setQuery={setFunction} setFilter={setBoolean} />
       <Button onClick={handleSection}> Switch to Dropdown Selection </Button>
     </Div>
     );

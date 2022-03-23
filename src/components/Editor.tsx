@@ -12,9 +12,10 @@ const parser = new Parser();
 
 type EditorProps = {
   setQuery: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>
+  setFilter: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Editor = ({ setQuery } : EditorProps) => {
+const Editor = ({ setQuery, setFilter } : EditorProps) => {
 
   const [queryString, setQueryString ] = useState('');
   // console.log(queryString);
@@ -22,17 +23,20 @@ const Editor = ({ setQuery } : EditorProps) => {
   const handleButtonClick = (event: FormEvent) => {
     event.preventDefault();
     const ast = parser.astify(queryString);
-    console.log(ast);
     const { columns, from, where } = ast as any;
     const parsedColumns = columns.map((col:any) => col.expr.column);
     const parseTables = from.map((fr:any) => fr.table);
     const parseConditions = JSON.stringify(where);
 
+    console.log(`INSIDE EDITOR: ${[parsedColumns,parseTables]}`);
     setQuery({
       select: parsedColumns,
       from: parseTables,
-      where: parseConditions
+      where: parseConditions,
+      setFrom: 'editor'
     });
+
+    setFilter(true);
   }
 
   return(
