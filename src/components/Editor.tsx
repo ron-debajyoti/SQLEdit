@@ -5,7 +5,7 @@ import { Parser } from 'node-sql-parser';
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/mode-mysql";
 import "ace-builds/src-min-noconflict/theme-github";
-import { Button } from './Reusables';
+import { Div, Button } from './Reusables';
 import { SelectedOptionsType } from './types/types';
 
 const parser = new Parser();
@@ -36,7 +36,7 @@ const Editor = ({ setQuery } : EditorProps) => {
   }
 
   return(
-    <div className='sql-editor-section'>
+    <Div className='sql-editor-section' flexDirection='column' width='100%'>
       <AceEditor 
         aria-label="query editor input"
         mode="mysql"
@@ -61,7 +61,7 @@ const Editor = ({ setQuery } : EditorProps) => {
         className="sql-editor"
       />
       <Button onClick={handleButtonClick}>Submit Query</Button>
-    </div>
+    </Div>
   )
 }
 

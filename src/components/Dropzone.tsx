@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
+import styled from 'styled-components/macro';
 import { useDropzone } from "react-dropzone";
 
 type DropzoneProps  = {
@@ -18,8 +19,15 @@ const dropzoneStyle: Record<any, any> = {
   backgroundColor: '#fafafa',
   color: 'black',
   outline: 'none',
-  transition: 'border .24s ease-in-out'
+  transition: 'border .24s ease-in-out',
 };
+
+const Section = styled.div`
+  display: flex;
+  flex-grow : 1;
+  justify-content: center;
+  align-items: stretch;
+`;
 
 
 const Dropzone = ({ onFileChange } : DropzoneProps) => {
@@ -52,7 +60,7 @@ const Dropzone = ({ onFileChange } : DropzoneProps) => {
   },[acceptedFiles]);
   
   return (
-    <section className="dropzone-container">
+    <Section className="dropzone-container">
       <div {...getRootProps({ 
         className: 'dropzone', 
         style: dropzoneStyle
@@ -61,7 +69,7 @@ const Dropzone = ({ onFileChange } : DropzoneProps) => {
         <p>Drag and drop some files here, or click to select files</p>
         <em>(Only *.csv and *.json are accepted)</em>
       </div>
-    </section>
+    </Section>
   );
 }
 

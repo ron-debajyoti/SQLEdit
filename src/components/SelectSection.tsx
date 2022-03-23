@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components/macro';
 import { SelectedOptionsType, TableColumn } from './types/types';
 import Editor from './Editor';
-import { Button } from './Reusables';
+import { Div, Button } from './Reusables';
 import DropDownSelection from './Dropdown';
 
 type SelectSectionProps = {
@@ -22,18 +23,18 @@ const SelectSection = ({ columns, tableName, setFunction, bool, setBoolean, setE
 
   if(isEditor) {
     return(
-    <div>
+    <Div className='section-dropdown' flexDirection='column' flexGrow={1} width='100%'>
       <Editor setQuery={setEditorStringQuery} />
-      <Button onClick={handleSection}> Switch to Toggle Selection </Button>
-    </div>
+      <Button onClick={handleSection}> Switch to Dropdown Selection </Button>
+    </Div>
     );
   }
   
   return(
-    <div>
+    <Div className='section-editor' flexDirection='column'>
       <DropDownSelection {...{ columns, tableName, setFunction, bool, setBoolean }} />
       <Button onClick={handleSection}> Switch to Editor </Button>
-    </div>
+    </Div>
   )
   
 };

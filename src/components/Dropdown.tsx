@@ -5,9 +5,8 @@ import { OptionsType, SelectionProps } from "./types/types";
 import { Button } from "./Reusables";
 
 const Form = styled.form`
-  display: flex;
-  align-items: center;
   flex-direction: row;
+  justify-content: center;
   margin: 1em;
   padding: 1em;
 `;

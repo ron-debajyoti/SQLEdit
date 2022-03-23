@@ -5,6 +5,7 @@ import DataTable from './DataTable';
 import { DataType, AppFileType, OptionsType, SelectedOptionsType } from './types/types';
 import { parseDataToFormat } from './utils/parseData';
 import SelectSection from './SelectSection';
+import { Div } from './Reusables';
 
 import '../styles/App.css';
 
@@ -76,7 +77,7 @@ const App = () => {
   const Renderer = ({ dataset, setSelectedOptions, isFiltered, setFilter }: RendererProps) => {
     if(dataset && dataset.columns) {
       return(
-        <div className="Renderer">
+        <Div className="Renderer" flexDirection='column'>
           <SelectSection 
             columns={dataset.columns} 
             tableName={dataset.table} 
@@ -86,7 +87,7 @@ const App = () => {
             setBoolean={setFilter}
           />
           <DataTable {...dataset}/>
-        </div>
+        </Div>
       );
     }
     return(
