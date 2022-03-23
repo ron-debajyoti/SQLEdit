@@ -1,47 +1,48 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { FormEvent, useState } from 'react';
 import AceEditor from 'react-ace';
 import { v4 as uuid } from 'uuid';
 import { Parser } from 'node-sql-parser';
-import "ace-builds/src-min-noconflict/ext-language_tools";
-import "ace-builds/src-min-noconflict/mode-mysql";
-import "ace-builds/src-min-noconflict/theme-github";
+import 'ace-builds/src-min-noconflict/ext-language_tools';
+import 'ace-builds/src-min-noconflict/mode-mysql';
+import 'ace-builds/src-min-noconflict/theme-github';
 import { Div, Button } from './Reusables';
 import { SelectedOptionsType } from './types/types';
 
 const parser = new Parser();
 
 type EditorProps = {
-  setQuery: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>
-  setFilter: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setQuery: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>;
+};
 
-const Editor = ({ setQuery, setFilter } : EditorProps) => {
-
-  const [queryString, setQueryString ] = useState('');
+const Editor = ({ setQuery }: EditorProps) => {
+  const [queryString, setQueryString] = useState('');
   // console.log(queryString);
 
   const handleButtonClick = (event: FormEvent) => {
     event.preventDefault();
     const ast = parser.astify(queryString);
     const { columns, from, where } = ast as any;
-    const parsedColumns = columns.map((col:any) => col.expr.column);
-    const parseTables = from.map((fr:any) => fr.table);
+    const parsedColumns = columns.map((col: any) => col.expr.column);
+    const parseTables = from.map((fr: any) => fr.table);
     const parseConditions = JSON.stringify(where);
 
-    console.log(`INSIDE EDITOR: ${[parsedColumns,parseTables]}`);
     setQuery({
       select: parsedColumns,
       from: parseTables,
       where: parseConditions,
-      setFrom: 'editor'
+      setFrom: 'editor',
     });
+  };
 
-    setFilter(true);
-  }
+  const handleReset = (event: FormEvent) => {
+    event.preventDefault();
+    setQuery(undefined);
+  };
 
-  return(
-    <Div className='sql-editor-section' flexDirection='column' width='100%'>
-      <AceEditor 
+  return (
+    <Div className="sql-editor-section" flexDirection="column" width="100%">
+      <AceEditor
         aria-label="query editor input"
         mode="mysql"
         theme="github"
@@ -53,7 +54,7 @@ const Editor = ({ setQuery, setFilter } : EditorProps) => {
         showPrintMargin={false}
         showGutter
         highlightActiveLine={false}
-        placeholder={'Enter Query'}
+        placeholder="Enter Query"
         editorProps={{ $blockScrolling: true }}
         setOptions={{
           enableBasicAutocompletion: true,
@@ -64,9 +65,12 @@ const Editor = ({ setQuery, setFilter } : EditorProps) => {
         onChange={setQueryString}
         className="sql-editor"
       />
-      <Button onClick={handleButtonClick}>Submit Query</Button>
+      <Div className="button-section" flexDirection="row">
+        <Button onClick={handleButtonClick}>Submit Query</Button>
+        <Button onClick={handleReset}>Reset</Button>
+      </Div>
     </Div>
-  )
-}
+  );
+};
 
 export default Editor;

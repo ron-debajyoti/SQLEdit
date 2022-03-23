@@ -11,6 +11,7 @@
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
     "@types/react-table": "^7.7.10",
+    "lodash": "^4.17.21",
     "node-sql-parser": "^4.2.0",
     "papaparse": "^5.3.2",
     "react": "^17.0.2",
@@ -30,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint './src/**/*.{js,jsx}'",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint './src/**/*.{js,jsx}' --fix"
   },
   "browserslist": {
@@ -46,22 +47,19 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.180",
     "@types/papaparse": "^5.3.2",
     "@types/styled-components": "^5.1.24",
     "@types/uuid": "^8.3.4",
-    "babel-eslint": "^10.1.0",
-    "babel-plugin-styled-components": "^2.0.6",
-    "eslint": "^8.11.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-node": "^4.1.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-jest": "^26.1.1",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.6.0"
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "prettier": "^2.3.2"
   }
 }

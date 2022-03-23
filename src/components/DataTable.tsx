@@ -1,7 +1,8 @@
-import React, { memo } from "react";
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy } from 'react-table';
-import styled from "styled-components/macro";
-import { DataType } from "./types/types";
+import React, { memo } from 'react';
+import { useTable, useSortBy } from 'react-table';
+import styled from 'styled-components/macro';
+import { isEqual } from 'lodash';
+import { DataType } from './types/types';
 
 const Styles = styled.div`
   display: block;
@@ -21,7 +22,8 @@ const Styles = styled.div`
       }
     }
 
-    th,td {
+    th,
+    td {
       margin: 0;
       padding: 0.5rem;
       border-bottom: 1px solid black;
@@ -34,55 +36,58 @@ const Styles = styled.div`
   }
 `;
 
+// function areEqual(prevProps: DataType, nextProps: DataType): boolean {
+//   if (prevProps.table !== nextProps.table && prevProps.table !== undefined) return false;
 
-const DataTable = ({ columns, data, type, table } : DataType) => {
+//   // compare columns first
+//   if (prevProps.columns.length !== nextProps.columns.length) return false;
+//   if (!isEqual(prevProps.columns, nextProps.columns)) return false;
+
+//   if (prevProps.data.length !== nextProps.data.length) return false;
+//   if (!isEqual(prevProps.data, nextProps.data)) return false;
+
+//   return true;
+// }
+
+const DataTable = ({ columns, data, table }: DataType) => {
   console.log(columns);
   console.log(data);
+  console.log(table);
 
   const tableInstance = useTable({ columns, data }, useSortBy);
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
   return (
-  <Styles>
-    <div className="data-table">
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
+    <Styles>
+      <div className="data-table">
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                  </th>
+                ))}
               </tr>
-            )}
-          )}
-        </tbody>
-      </table>
-    </div>
-  </Styles>
-  )
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </Styles>
+  );
 };
 
 export default memo(DataTable);
