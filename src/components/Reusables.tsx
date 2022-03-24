@@ -28,6 +28,15 @@ export const Div = styled.div<DivProps>`
   flex-direction: ${(props) => props.flexDirection};
   flex-grow: ${(props) => props.flexGrow};
   width: ${(props) => props.width};
-  margin: 1.5em 1em
-  padding: 1em
+  margin: 2px 4px;
+  padding: 2px;
+`;
+
+export const Section = styled.div`
+  width: 100%;
+  border: 0.5rem outset #282c34;
+`;
+
+export const H3 = styled.h3`
+  margin: 3rem 2.5rem;
 `;

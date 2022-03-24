@@ -33,6 +33,12 @@ const DropDownSelection = ({ columns, tableName, setFunction }: SelectionProps) 
     label: column.Header,
   }));
 
+  // Adding * option for tables
+  columnOptions.push({
+    value: '*',
+    label: '*',
+  });
+
   const tableOptions = [
     {
       value: tableName,
@@ -77,7 +83,7 @@ const DropDownSelection = ({ columns, tableName, setFunction }: SelectionProps) 
         </Label>
         <Button type="button" className="button-submit" onClick={handleSubmit}>
           {' '}
-          Submit{' '}
+          Submit Query{' '}
         </Button>
         <Button type="button" className="button-reset" onClick={handleReset}>
           {' '}

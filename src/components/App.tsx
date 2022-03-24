@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useEffect, useState } from 'react';
 import { parse } from 'papaparse';
@@ -6,7 +7,7 @@ import DataTable from './DataTable';
 import { DataType, AppFileType, SelectedOptionsType, TableColumn } from './types/types';
 import parseDataToFormat from './utils/parseData';
 import SelectSection from './SelectSection';
-import { Div } from './Reusables';
+import { Div, Section } from './Reusables';
 
 import '../styles/App.css';
 
@@ -53,13 +54,23 @@ const App = () => {
       let filteredColumnsContent: TableColumn[];
 
       if (selectedOptions.setFrom === 'dropbutton') {
-        filteredColumnsContent = dataset.columns.filter((col) =>
-          selectedOptions.select?.includes(col.accessor)
-        );
+        // checking if * in columns is selected
+        if (selectedOptions.select?.includes('*')) {
+          filteredColumnsContent = dataset.columns;
+        } else {
+          filteredColumnsContent = dataset.columns.filter((col) =>
+            selectedOptions.select?.includes(col.accessor)
+          );
+        }
       } else {
-        filteredColumnsContent = dataset.columns.filter((col) =>
-          selectedOptions.select?.includes(col.accessor.split('_')[0])
-        );
+        // checking if * in columns is selected
+        if (selectedOptions.select?.includes('*')) {
+          filteredColumnsContent = dataset.columns;
+        } else {
+          filteredColumnsContent = dataset.columns.filter((col) =>
+            selectedOptions.select?.includes(col.accessor.split('_')[0])
+          );
+        }
       }
 
       const filteredRows = dataset.data.map((dataEntry) => {
@@ -92,6 +103,7 @@ const App = () => {
             isEditor={isEditor}
             setEditor={setEditor}
           />
+          <Section />
           <DataTable {...data} />
         </Div>
       );
