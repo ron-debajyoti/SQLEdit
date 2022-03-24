@@ -1,8 +1,11 @@
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components/macro';
 import ReactSelect, { MultiValue } from 'react-select';
+import { iNotification } from 'react-notifications-component';
 import { OptionsType, SelectionProps } from './types/types';
 import { Div, Button } from './Reusables';
+
+import 'react-notifications-component/dist/theme.css';
 
 const Form = styled.form`
   display: flex;
@@ -26,7 +29,12 @@ const Label = styled.label`
  *
  * @returns
  */
-const DropDownSelection = ({ columns, tableName, setFunction }: SelectionProps) => {
+const DropDownSelection = ({
+  columns,
+  tableName,
+  setFunction,
+  setErrorFunction,
+}: SelectionProps) => {
   const [selectedColumns, setSelectedColumns] = useState<MultiValue<OptionsType>>();
   const columnOptions: Array<OptionsType> = columns.map((column) => ({
     value: column.accessor,
@@ -52,11 +60,27 @@ const DropDownSelection = ({ columns, tableName, setFunction }: SelectionProps) 
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setFunction({
-      select: selectedColumns?.map((col) => col.value),
-      from: [tableName],
-      setFrom: 'dropbutton',
-    });
+
+    if (selectedColumns === undefined || selectedColumns.length === 0) {
+      setErrorFunction({
+        title: 'Error',
+        message: 'Cannot select from NULL columns',
+        type: 'danger',
+        insert: 'top',
+        container: 'top-center',
+        animationIn: ['animate__animated animate__fadeIn'],
+        animationOut: ['animate__animated animate__fadeOut'],
+        dismiss: {
+          duration: 2000,
+        },
+      } as iNotification);
+    } else {
+      setFunction({
+        select: selectedColumns?.map((col) => col.value),
+        from: [tableName],
+        setFrom: 'dropbutton',
+      });
+    }
   };
 
   const handleReset = (event: FormEvent) => {

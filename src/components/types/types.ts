@@ -31,4 +31,5 @@ export type SelectionProps = {
   columns: Array<TableColumn>;
   tableName: string;
   setFunction: React.Dispatch<React.SetStateAction<SelectedOptionsType | undefined>>;
+  setErrorFunction: any;
 };

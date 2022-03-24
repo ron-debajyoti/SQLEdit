@@ -1,7 +1,9 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable @typescript-eslint/no-shadow */
+
 import React, { useEffect, useState } from 'react';
 import { parse } from 'papaparse';
+import { iNotification, ReactNotifications, Store } from 'react-notifications-component';
 import Dropzone from './Dropzone';
 import DataTable from './DataTable';
 import { DataType, AppFileType, SelectedOptionsType, TableColumn } from './types/types';
@@ -96,12 +98,16 @@ const App = () => {
     if (data && data.columns) {
       return (
         <Div className="query-entry-render" flexDirection="column">
+          <ReactNotifications />
           <SelectSection
             columns={data.columns}
             tableName={data.table}
             setFunction={setOptions}
             isEditor={isEditor}
             setEditor={setEditor}
+            setErrorMessage={(message: iNotification) => {
+              Store.addNotification({ ...message, container: 'top-center' });
+            }}
           />
           <Section />
           <DataTable {...data} />
@@ -112,6 +118,7 @@ const App = () => {
   };
 
   /* Main return of App */
+
   if (filteredDataset && filteredDataset.columns) {
     return (
       <div className="App">
@@ -128,6 +135,7 @@ const App = () => {
       </div>
     );
   }
+
   return (
     <div className="App">
       <header className="App-header">SQLEdit</header>
