@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "project": ["./tsconfig.json"]
+    },
+  "extends": [
+    "airbnb-typescript",
+    "prettier",
+    "react-app",
+    "react-app/jest"
+  ],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-parser": "off"
+  }
+}
