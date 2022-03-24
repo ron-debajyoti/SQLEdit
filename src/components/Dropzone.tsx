@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useDropzone } from 'react-dropzone';
+import { iNotification } from 'react-notifications-component';
 
 type DropzoneProps = {
   onFileChange: any;
+  handleError: any;
 };
 
 const dropzoneStyle: Record<any, any> = {
@@ -29,28 +31,38 @@ const Section = styled.div`
   align-items: stretch;
 `;
 
-const Dropzone = ({ onFileChange }: DropzoneProps) => {
+const Dropzone = ({ onFileChange, handleError }: DropzoneProps) => {
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } = useDropzone({
     multiple: false,
-    accept: 'text/csv, application/json',
+    accept: 'text/csv',
   });
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       const { type } = acceptedFiles[0];
-      if (type === 'application/json') {
-        onFileChange({
-          file: acceptedFiles[0],
-          type: 'json',
-        });
-      } else {
+      if (type === 'text/csv') {
         onFileChange({
           file: acceptedFiles[0],
           type: 'csv',
         });
       }
     }
-  }, [acceptedFiles]);
+    if (fileRejections.length > 0) {
+      console.log(fileRejections);
+      handleError({
+        title: 'Error',
+        message: `Unsupported file uploaded`,
+        type: 'danger',
+        insert: 'top',
+        container: 'top-center',
+        animationIn: ['animate__animated animate__fadeIn'],
+        animationOut: ['animate__animated animate__fadeOut'],
+        dismiss: {
+          duration: 2000,
+        },
+      } as iNotification);
+    }
+  }, [acceptedFiles, fileRejections]);
 
   return (
     <Section className="dropzone-container">
@@ -62,7 +74,7 @@ const Dropzone = ({ onFileChange }: DropzoneProps) => {
       >
         <input {...getInputProps()} />
         <p>Drag and drop some files here, or click to select files</p>
-        <em>(Only *.csv and *.json are accepted)</em>
+        <em>(Only *.csv files are accepted)</em>
       </div>
     </Section>
   );

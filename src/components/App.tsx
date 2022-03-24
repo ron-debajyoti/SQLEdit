@@ -98,7 +98,6 @@ const App = () => {
     if (data && data.columns) {
       return (
         <Div className="query-entry-render" flexDirection="column">
-          <ReactNotifications />
           <SelectSection
             columns={data.columns}
             tableName={data.table}
@@ -114,30 +113,43 @@ const App = () => {
         </Div>
       );
     }
-    return <Dropzone onFileChange={(changeFile: AppFileType) => setFile(changeFile)} />;
+    return (
+      <Dropzone
+        onFileChange={(changeFile: AppFileType) => setFile(changeFile)}
+        handleError={(message: iNotification) => {
+          Store.addNotification({ ...message, container: 'top-center' });
+        }}
+      />
+    );
   };
 
   /* Main return of App */
 
+  // if filtered dataset exists
   if (filteredDataset && filteredDataset.columns) {
     return (
       <div className="App">
+        <ReactNotifications />
         <header className="App-header">SQLEdit</header>
         <Renderer data={filteredDataset} setOptions={setSelectedOptions} />
       </div>
     );
   }
+  // if dataset exists
   if (dataset && dataset.columns) {
     return (
       <div className="App">
+        <ReactNotifications />
         <header className="App-header">SQLEdit</header>
         <Renderer data={dataset} setOptions={setSelectedOptions} />
       </div>
     );
   }
 
+  // default JSX Element returned
   return (
     <div className="App">
+      <ReactNotifications />
       <header className="App-header">SQLEdit</header>
       <Renderer data={dataset} setOptions={setSelectedOptions} />
     </div>
