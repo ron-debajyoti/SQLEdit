@@ -46,7 +46,7 @@ const Editor = ({ setQuery, setErrorMessage }: EditorProps) => {
 
     // checking if 'columns' and 'from' is undefined
 
-    if (!columns || !from) {
+    if (!columns || !from || columns.length === 0 || from.length === 0) {
       setErrorMessage({
         title: 'Error',
         message: `Either 'select' or 'from' is missing`,
@@ -59,6 +59,7 @@ const Editor = ({ setQuery, setErrorMessage }: EditorProps) => {
           duration: 2000,
         },
       } as iNotification);
+      return;
     }
 
     let parsedColumns;
