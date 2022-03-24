@@ -48,7 +48,6 @@ const Dropzone = ({ onFileChange, handleError }: DropzoneProps) => {
       }
     }
     if (fileRejections.length > 0) {
-      console.log(fileRejections);
       handleError({
         title: 'Error',
         message: `Unsupported file uploaded`,
@@ -73,7 +72,7 @@ const Dropzone = ({ onFileChange, handleError }: DropzoneProps) => {
         })}
       >
         <input {...getInputProps()} />
-        <p>Drag and drop some files here, or click to select files</p>
+        <p>Drag and drop a csv file here, or click to select file</p>
         <em>(Only *.csv files are accepted)</em>
       </div>
     </Section>
